@@ -15,7 +15,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         cron \
         exuberant-ctags \
-        git \
+        mercurial \
         sudo \
     && curl -LO "$OPENGROKZIP" \
     && tar xaf ${OPENGROKVERSION}.tar.gz \
@@ -31,7 +31,7 @@ RUN apt-get update \
 
 COPY run_tests.sh /usr/local/tomcat/
 VOLUME /source
-USER tomcat
+#USER tomcat
 CMD ${OPENGROKVERSION}/bin/OpenGrok deploy \
     && find webapps -maxdepth 1 -name source* -execdir \
         sh -c 'mv -u $(basename {}) $(echo $(basename {}) | sed s/source/${OPENGROK_WEBAPP_CONTEXT:-source}/)' \; \

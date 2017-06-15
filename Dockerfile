@@ -25,6 +25,8 @@ RUN apt-get update \
     && chown -R tomcat . \
     && echo done
 
+RUN ln -s "$OPENGROKVERSION" opengrok
+
 COPY run_tests.sh /usr/local/tomcat/
 VOLUME /source
 #USER tomcat
@@ -33,4 +35,3 @@ CMD ${OPENGROKVERSION}/bin/OpenGrok deploy \
         sh -c 'mv -u $(basename {}) $(echo $(basename {}) | sed s/source/${OPENGROK_WEBAPP_CONTEXT:-source}/)' \; \
     && ${OPENGROKVERSION}/bin/OpenGrok index /source \
     && catalina.sh run
-
